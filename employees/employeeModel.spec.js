@@ -1,4 +1,4 @@
-const {insert} = require('./employeeModel');
+const {insert, remove, findById} = require('./employeeModel');
 const db = require('../data/dbConfig');
 
 describe('employee model', () => {
@@ -40,6 +40,8 @@ describe('employee model', () => {
         employee = {name: 'Tim'};
         inserted = await insert (employee);
         expect(inserted.name).toBe(employee.name);
+
+        })
     
         //instead of using get here which is what you're testing, grab direct from db itself
         //must have await for the data that we expect, or object is hobbits itself
@@ -49,11 +51,24 @@ describe('employee model', () => {
     
         //your tests have to implictly test : for example test if  delete function should clear 
         //database
-    
+        describe('delete()', ()=> {
+            it('should delete an employee', async() => {
+                await insert({name: 'Matt'});
+                await insert({name: 'Jon'});
+
+                     await remove(1);
+                
+                const deletedEmployee = await findById(1);
+              
+                expect(deletedEmployee).toBeUndefined();
+               
+            })
+        })
+      
         
       
-    })
-    })
     });
+    });
+
     
     
